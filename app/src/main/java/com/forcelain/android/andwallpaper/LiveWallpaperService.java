@@ -1,7 +1,8 @@
 package com.forcelain.android.andwallpaper;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.forcelain.android.andwallpaper.pxscene.CountryScene;
@@ -21,26 +22,26 @@ import org.andengine.extension.ui.livewallpaper.BaseLiveWallpaperService;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.util.GLState;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 public class LiveWallpaperService extends BaseLiveWallpaperService {
 
     private Camera camera;
     private int factor = 6;
     private PxScene currentScene;
-    private ArrayList<PxScene> sceneList;
     private Scene scene;
+    private CountryScene countryScene;
+    private UrbanScene urbanScene;
+    private MountainScene mountainScene;
+    private IndustrialScene industrialScene;
+    private ForestScene forestScene;
 
     @Override
     public EngineOptions onCreateEngineOptions() {
         final DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager wm = (WindowManager)getSystemService(WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         wm.getDefaultDisplay().getMetrics(displayMetrics);
         int cameraWidth = displayMetrics.widthPixels;
         int cameraHeight = displayMetrics.heightPixels;
-        camera = new Camera(0, 0, cameraWidth/factor, cameraHeight/factor);
+        camera = new Camera(0, 0, cameraWidth / factor, cameraHeight / factor);
         IResolutionPolicy pResolutionPolicy = new FixedResolutionPolicy(cameraWidth, cameraHeight);
         EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, pResolutionPolicy, camera);
         //engineOptions.getRenderOptions().setMultiSampling(true);
@@ -51,27 +52,20 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
     public void onCreateResources(OnCreateResourcesCallback pOnCreateResourcesCallback) throws Exception {
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-        CountryScene countryScene = new CountryScene(this);
+        countryScene = new CountryScene(this);
         countryScene.createResources();
 
-        UrbanScene urbanScene = new UrbanScene(this);
+        urbanScene = new UrbanScene(this);
         urbanScene.createResources();
 
-        MountainScene mountainScene = new MountainScene(this);
+        mountainScene = new MountainScene(this);
         mountainScene.createResources();
 
-        IndustrialScene industrialScene = new IndustrialScene(this);
+        industrialScene = new IndustrialScene(this);
         industrialScene.createResources();
 
-        ForestScene forestScene = new ForestScene(this);
+        forestScene = new ForestScene(this);
         forestScene.createResources();
-
-        sceneList = new ArrayList<>();
-        sceneList.add(countryScene);
-        sceneList.add(urbanScene);
-        sceneList.add(mountainScene);
-        sceneList.add(industrialScene);
-        sceneList.add(forestScene);
 
         pOnCreateResourcesCallback.onCreateResourcesFinished();
     }
@@ -86,21 +80,39 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
     @Override
     public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws Exception {
         scene = new Scene();
-        pOnCreateSceneCallback.onCreateSceneFinished(scene);
+        pOnCreateSceneCallback.onCreateSceneFinished(this.scene);
 
     }
 
     @Override
     public void onPopulateScene(Scene pScene, OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
-        Log.d("&&&&", "onPopulateScene");
         pOnPopulateSceneCallback.onPopulateSceneFinished();
     }
 
     @Override
     public synchronized void onResumeGame() {
         super.onResumeGame();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String scene = preferences.getString(Constants.PREF_SCENE, "");
+        switch (scene) {
+            case Constants.COUNTRY:
+                currentScene = countryScene;
+                break;
+            case Constants.FOREST:
+                currentScene = forestScene;
+                break;
+            case Constants.INDUSTRIAL:
+                currentScene = industrialScene;
+                break;
+            case Constants.MOUNTAIN:
+                currentScene = mountainScene;
+                break;
+            case Constants.URBAN:
+                currentScene = urbanScene;
+                break;
+        }
+        currentScene.populateScene(this.scene);
         //currentScene = sceneList.get(new Random().nextInt(sceneList.size()));
-        currentScene = sceneList.get(1);
-        currentScene.populateScene(scene);
+        //currentScene.populateScene(scene);
     }
 }
