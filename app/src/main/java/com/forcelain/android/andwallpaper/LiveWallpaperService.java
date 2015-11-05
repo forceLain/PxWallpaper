@@ -3,6 +3,7 @@ package com.forcelain.android.andwallpaper;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.forcelain.android.andwallpaper.pxscene.CountryScene;
@@ -25,7 +26,7 @@ import org.andengine.opengl.util.GLState;
 public class LiveWallpaperService extends BaseLiveWallpaperService {
 
     private Camera camera;
-    private int factor = 6;
+    private int factor = 5;
     private PxScene currentScene;
     private Scene scene;
     private CountryScene countryScene;
@@ -69,19 +70,17 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
 
         pOnCreateResourcesCallback.onCreateResourcesFinished();
     }
-
     @Override
     public void onSurfaceChanged(GLState pGLState, int pWidth, int pHeight) {
         super.onSurfaceChanged(pGLState, pWidth, pHeight);
         camera.set(0, 0, pWidth / factor, pHeight / factor);
-        //currentScene.onSurfaceChanged(pWidth, pHeight);
+        currentScene.onSurfaceChanged(pWidth, pHeight);
     }
 
     @Override
     public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws Exception {
         scene = new Scene();
         pOnCreateSceneCallback.onCreateSceneFinished(this.scene);
-
     }
 
     @Override
@@ -113,7 +112,5 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
         }
         this.scene.clearChildScene();
         currentScene.populateScene(this.scene);
-        //currentScene = sceneList.get(new Random().nextInt(sceneList.size()));
-        //currentScene.populateScene(scene);
     }
 }
