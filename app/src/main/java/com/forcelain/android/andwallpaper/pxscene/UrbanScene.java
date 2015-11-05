@@ -42,11 +42,7 @@ public class UrbanScene extends PxScene {
 
     @Override
     public void populateScene(Scene scene) {
-
-        scene.clearChildScene();
-
         Scene childrenScene = new Scene();
-
         Camera camera = getLiveWallpaperService().getEngine().getCamera();
         sprites.clear();
         for (TextureRegion region : regions) {

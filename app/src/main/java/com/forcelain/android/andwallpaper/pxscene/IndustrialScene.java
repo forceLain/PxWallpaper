@@ -42,12 +42,9 @@ public class IndustrialScene extends PxScene {
 
     @Override
     public void populateScene(Scene scene) {
-
-    }
-
-    public Scene onCreateScene() {
         Camera camera = getLiveWallpaperService().getEngine().getCamera();
-        Scene scene = new Scene();
+        Scene childScene = new Scene();
+        sprites.clear();
         for (TextureRegion region : regions) {
             sprites.add(new Sprite(0, camera.getHeight() - region.getHeight(), region, getLiveWallpaperService().getVertexBufferObjectManager()));
         }
@@ -55,8 +52,8 @@ public class IndustrialScene extends PxScene {
         for (int i = 0; i < sprites.size(); i++) {
             background.attachParallaxEntity(new ParallaxBackground.ParallaxEntity(i + 1, sprites.get(i)));
         }
-        scene.setBackground(background);
-        scene.registerUpdateHandler(new DefaultParallaxHandler(background));
-        return scene;
+        childScene.setBackground(background);
+        childScene.registerUpdateHandler(new DefaultParallaxHandler(background));
+        scene.setChildScene(childScene);
     }
 }

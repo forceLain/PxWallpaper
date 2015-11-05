@@ -111,6 +111,7 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
                 currentScene = urbanScene;
                 break;
         }
+        this.scene.clearChildScene();
         currentScene.populateScene(this.scene);
         //currentScene = sceneList.get(new Random().nextInt(sceneList.size()));
         //currentScene.populateScene(scene);
