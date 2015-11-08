@@ -1,11 +1,12 @@
 package org.andengine.extension.opengl;
 
-import org.andengine.util.debug.Debug;
-
 import android.opengl.GLSurfaceView.EGLConfigChooser;
 import android.opengl.GLSurfaceView.Renderer;
 import android.service.wallpaper.WallpaperService;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+
+import org.andengine.util.debug.Debug;
 
 /**
  * (c) Zynga 2011
@@ -66,6 +67,11 @@ public class GLWallpaperService extends WallpaperService {
 		// ===========================================================
 		// Constructors
 		// ===========================================================
+
+		public GLEngine() {
+			setTouchEventsEnabled(true);
+		}
+
 
 		// ===========================================================
 		// Getter & Setter
@@ -131,7 +137,6 @@ public class GLWallpaperService extends WallpaperService {
 		@Override
 		public void onSurfaceCreated(final SurfaceHolder pSurfaceHolder) {
 			this.mGLThread.surfaceCreated(pSurfaceHolder);
-
 			super.onSurfaceCreated(pSurfaceHolder);
 		}
 
@@ -168,8 +173,18 @@ public class GLWallpaperService extends WallpaperService {
 			}
 		}
 
+		@Override
+		public void onTouchEvent(MotionEvent event) {
+			super.onTouchEvent(event);
+			GLWallpaperService.this.onTouchEvent(event);
+		}
+
 		// ===========================================================
 		// Inner and Anonymous Classes
 		// ===========================================================
+	}
+
+	protected void onTouchEvent(MotionEvent event) {
+
 	}
 }

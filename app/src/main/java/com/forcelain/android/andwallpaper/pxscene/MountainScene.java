@@ -2,26 +2,20 @@ package com.forcelain.android.andwallpaper.pxscene;
 
 import com.forcelain.android.andwallpaper.LiveWallpaperService;
 
-import org.andengine.engine.camera.Camera;
-import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.ParallaxBackground;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.region.TextureRegion;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MountainScene extends PxScene {
-
-    private List<TextureRegion> regions = new ArrayList<>();
-    private ArrayList<Sprite> sprites = new ArrayList<>();
+public class MountainScene extends ParallaxScene {
 
     public MountainScene(LiveWallpaperService liveWallpaperService) {
         super(liveWallpaperService);
     }
 
+    @Override
+    protected ParallaxBackground createBackground() {
+        return new ParallaxBackground(171/255f, 106/255f, 140/255f);
+    }
 
     @Override
     public void createResources() {
@@ -32,31 +26,5 @@ public class MountainScene extends PxScene {
         regions.add(createRegionMultiSampling(textureAtlas, "mountain/4.png", 0, 170));
         regions.add(createRegionMultiSampling(textureAtlas, "mountain/5.png", 0, 350));
         textureAtlas.load();
-    }
-
-    @Override
-    public void onSurfaceChanged(int width, int height) {
-        Camera camera = getLiveWallpaperService().getEngine().getCamera();
-        for (Sprite sprite : sprites) {
-            sprite.setY(camera.getHeight() - sprite.getHeight());
-        }
-    }
-
-    @Override
-    public void populateScene(Scene scene) {
-        Scene childScene = new Scene();
-        Camera camera = getLiveWallpaperService().getEngine().getCamera();
-        sprites.clear();
-        for (TextureRegion region : regions) {
-            sprites.add(new Sprite(0, camera.getHeight() - region.getHeight(), region, getLiveWallpaperService().getVertexBufferObjectManager()));
-        }
-        final ParallaxBackground background = new ParallaxBackground(171/255f, 106/255f, 140/255f);
-        for (int i = 0; i < sprites.size(); i++) {
-            background.attachParallaxEntity(new ParallaxBackground.ParallaxEntity(i + 1, sprites.get(i)));
-        }
-        childScene.setBackground(background);
-        childScene.registerUpdateHandler(new DefaultParallaxHandler(background));
-
-        scene.setChildScene(childScene);
     }
 }

@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.WindowManager;
 
 import com.forcelain.android.andwallpaper.pxscene.CountryScene;
@@ -34,6 +35,7 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
     private MountainScene mountainScene;
     private IndustrialScene industrialScene;
     private ForestScene forestScene;
+    private String currentSceneName;
 
     @Override
     public EngineOptions onCreateEngineOptions() {
@@ -45,7 +47,7 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
         camera = new Camera(0, 0, cameraWidth / factor, cameraHeight / factor);
         IResolutionPolicy pResolutionPolicy = new FixedResolutionPolicy(cameraWidth, cameraHeight);
         EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, pResolutionPolicy, camera);
-        //engineOptions.getRenderOptions().setMultiSampling(true);
+        engineOptions.getRenderOptions().setMultiSampling(true);
         return engineOptions;
     }
 
@@ -93,24 +95,44 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
         super.onResumeGame();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String scene = preferences.getString(Constants.PREF_SCENE, "");
-        switch (scene) {
-            case Constants.COUNTRY:
-                currentScene = countryScene;
-                break;
-            case Constants.FOREST:
-                currentScene = forestScene;
-                break;
-            case Constants.INDUSTRIAL:
-                currentScene = industrialScene;
-                break;
-            case Constants.MOUNTAIN:
-                currentScene = mountainScene;
-                break;
-            case Constants.URBAN:
-                currentScene = urbanScene;
-                break;
+        if (!scene.equals(currentSceneName)){
+            switch (scene) {
+                case Constants.COUNTRY:
+                    currentScene = countryScene;
+                    break;
+                case Constants.FOREST:
+                    currentScene = forestScene;
+                    break;
+                case Constants.INDUSTRIAL:
+                    currentScene = industrialScene;
+                    break;
+                case Constants.MOUNTAIN:
+                    currentScene = mountainScene;
+                    break;
+                case Constants.URBAN:
+                    currentScene = urbanScene;
+                    break;
+            }
+            this.scene.clearChildScene();
+            currentScene.populateScene(this.scene);
         }
-        this.scene.clearChildScene();
-        currentScene.populateScene(this.scene);
+        if (currentScene != null){
+            currentScene.onResumeGame();
+        }
+        currentSceneName = scene;
+    }
+
+    @Override
+    public void onPauseGame() {
+        super.onPauseGame();
+        if (currentScene != null){
+            currentScene.onPauseGame();
+        }
+    }
+
+    @Override
+    protected void onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+        currentScene.onTouchEvent(event);
     }
 }

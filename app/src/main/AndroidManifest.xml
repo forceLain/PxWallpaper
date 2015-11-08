@@ -28,7 +28,7 @@
                 android:resource="@xml/wallpaper"/>
         </service>
 
-        <activity android:name=".PxActivity">
+        <activity android:name=".PxActivity" android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

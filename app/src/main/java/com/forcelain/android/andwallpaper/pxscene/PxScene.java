@@ -1,5 +1,7 @@
 package com.forcelain.android.andwallpaper.pxscene;
 
+import android.view.MotionEvent;
+
 import com.forcelain.android.andwallpaper.LiveWallpaperService;
 
 import org.andengine.entity.scene.Scene;
@@ -30,4 +32,10 @@ public abstract class PxScene {
     }
 
     public abstract void populateScene(Scene scene);
+
+    public abstract void onPauseGame();
+
+    public abstract void onResumeGame();
+
+    public abstract void onTouchEvent(MotionEvent event);
 }
