@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">PxWallpaper</string>
-    <string name="wallpaper_description">wallpaper_description</string>
+    <string name="wallpaper_description">PxWallpaper</string>
     <string name="set_preview">Set wallpaper / Preview</string>
     <string name="title_scene">Scene</string>
     <string name="scene_country">Country</string>

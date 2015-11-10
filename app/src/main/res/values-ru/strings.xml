@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="set_preview">Установить обои / Предпросмотр</string>
+    <string name="title_scene">Сцена</string>
+    <string name="scene_country">Country</string>
+    <string name="scene_forest">Forest</string>
+    <string name="scene_industrial">Industrial</string>
+    <string name="scene_mountain">Mountain</string>
+    <string name="scene_urban">Urban</string>
+    <string name="title_size">Размер</string>
+    <string name="direction_left">Влево</string>
+    <string name="direction_right">Вправо</string>
+    <string name="direction_touch">Менять направление по свайпу</string>
+    <string name="direction_off">Без движения</string>
+    <string name="title_direction">Направление</string>
+    <string name="full_screen">Во весь экран</string>
+</resources>
