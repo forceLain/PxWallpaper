@@ -19,10 +19,10 @@ public class DefaultParallaxHandler implements IUpdateHandler {
     public void onUpdate(float pSecondsElapsed) {
         switch (state){
             case STATE_GO_LEFT:
-                value += .1f;
+                value += pSecondsElapsed;
                 break;
             case STATE_GO_RIGHT:
-                value -= .1f;
+                value -= pSecondsElapsed;
                 break;
         }
         background.setParallaxValue(value);
