@@ -38,4 +38,6 @@ public abstract class PxScene {
     public abstract void onResumeGame();
 
     public abstract void onTouchEvent(MotionEvent event);
+
+    public abstract float getHeight();
 }

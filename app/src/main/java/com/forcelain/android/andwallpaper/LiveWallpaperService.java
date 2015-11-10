@@ -1,9 +1,6 @@
 package com.forcelain.android.andwallpaper;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
@@ -11,6 +8,7 @@ import com.forcelain.android.andwallpaper.pxscene.CountryScene;
 import com.forcelain.android.andwallpaper.pxscene.ForestScene;
 import com.forcelain.android.andwallpaper.pxscene.IndustrialScene;
 import com.forcelain.android.andwallpaper.pxscene.MountainScene;
+import com.forcelain.android.andwallpaper.pxscene.ParallaxScene;
 import com.forcelain.android.andwallpaper.pxscene.PxScene;
 import com.forcelain.android.andwallpaper.pxscene.UrbanScene;
 
@@ -35,7 +33,7 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
     private MountainScene mountainScene;
     private IndustrialScene industrialScene;
     private ForestScene forestScene;
-    private String currentSceneName;
+    private com.forcelain.android.andwallpaper.Scene currentSceneEnum;
 
     @Override
     public EngineOptions onCreateEngineOptions() {
@@ -47,7 +45,7 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
         camera = new Camera(0, 0, cameraWidth / factor, cameraHeight / factor);
         IResolutionPolicy pResolutionPolicy = new FixedResolutionPolicy(cameraWidth, cameraHeight);
         EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, pResolutionPolicy, camera);
-        engineOptions.getRenderOptions().setMultiSampling(true);
+        //engineOptions.getRenderOptions().setMultiSampling(true);
         return engineOptions;
     }
 
@@ -72,6 +70,7 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
 
         pOnCreateResourcesCallback.onCreateResourcesFinished();
     }
+
     @Override
     public void onSurfaceChanged(GLState pGLState, int pWidth, int pHeight) {
         super.onSurfaceChanged(pGLState, pWidth, pHeight);
@@ -93,39 +92,56 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
     @Override
     public synchronized void onResumeGame() {
         super.onResumeGame();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String scene = preferences.getString(Constants.PREF_SCENE, "");
-        if (!scene.equals(currentSceneName)){
-            switch (scene) {
-                case Constants.COUNTRY:
+        com.forcelain.android.andwallpaper.Scene newScene = PrefUtils.getScene(this);
+        if (newScene != currentSceneEnum) {
+            switch (newScene) {
+                case COUNTRY:
                     currentScene = countryScene;
                     break;
-                case Constants.FOREST:
+                case FOREST:
                     currentScene = forestScene;
                     break;
-                case Constants.INDUSTRIAL:
+                case INDUSTRIAL:
                     currentScene = industrialScene;
                     break;
-                case Constants.MOUNTAIN:
+                case MOUNTAIN:
                     currentScene = mountainScene;
                     break;
-                case Constants.URBAN:
+                case URBAN:
                     currentScene = urbanScene;
                     break;
             }
             this.scene.clearChildScene();
             currentScene.populateScene(this.scene);
         }
-        if (currentScene != null){
+        currentSceneEnum = newScene;
+
+        Direction direction = PrefUtils.getDirection(this);
+        if (currentScene instanceof ParallaxScene){
+            ((ParallaxScene) currentScene).setDirection(direction);
+        }
+
+        boolean fullScreen = PrefUtils.isFullScreen(this);
+        if (fullScreen || currentSceneEnum == com.forcelain.android.andwallpaper.Scene.FOREST){
+            WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            wm.getDefaultDisplay().getMetrics(displayMetrics);
+            int screenHeight = displayMetrics.heightPixels;
+            float sceneHeight = currentScene.getHeight();
+            factor = (int) Math.ceil(screenHeight / sceneHeight) + 1;
+        } else {
+            factor = PrefUtils.getSize(this) + 1;
+        }
+
+        if (currentScene != null) {
             currentScene.onResumeGame();
         }
-        currentSceneName = scene;
     }
 
     @Override
     public void onPauseGame() {
         super.onPauseGame();
-        if (currentScene != null){
+        if (currentScene != null) {
             currentScene.onPauseGame();
         }
     }

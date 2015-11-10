@@ -4,9 +4,12 @@ import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.scene.background.ParallaxBackground;
 
 public class DefaultParallaxHandler implements IUpdateHandler {
+    private static final int STATE_GO_LEFT = 0;
+    private static final int STATE_GO_RIGHT = 1;
+    private static final int STATE_OFF = 2;
     private final ParallaxBackground background;
     private float value;
-    private boolean goRight = true;
+    private int state;
 
     public DefaultParallaxHandler(ParallaxBackground background) {
         this.background = background;
@@ -14,7 +17,14 @@ public class DefaultParallaxHandler implements IUpdateHandler {
 
     @Override
     public void onUpdate(float pSecondsElapsed) {
-        value = goRight ? value - 0.1f : value + 0.11f;
+        switch (state){
+            case STATE_GO_LEFT:
+                value += .1f;
+                break;
+            case STATE_GO_RIGHT:
+                value -= .1f;
+                break;
+        }
         background.setParallaxValue(value);
     }
 
@@ -24,10 +34,14 @@ public class DefaultParallaxHandler implements IUpdateHandler {
     }
 
     public void goRight() {
-        goRight = true;
+        state = STATE_GO_RIGHT;
     }
 
     public void goLeft() {
-        goRight = false;
+        state = STATE_GO_LEFT;
+    }
+
+    public void off() {
+        state = STATE_OFF;
     }
 }

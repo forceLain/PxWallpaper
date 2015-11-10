@@ -2,6 +2,7 @@ package com.forcelain.android.andwallpaper.pxscene;
 
 import android.view.MotionEvent;
 
+import com.forcelain.android.andwallpaper.Direction;
 import com.forcelain.android.andwallpaper.LiveWallpaperService;
 
 import org.andengine.engine.camera.Camera;
@@ -22,6 +23,7 @@ public abstract class ParallaxScene extends PxScene {
     private Scene childrenScene;
     private DefaultParallaxHandler updateHandler;
     private float startX = Float.MIN_VALUE;
+    private Direction direction;
 
     public ParallaxScene(LiveWallpaperService liveWallpaperService) {
         super(liveWallpaperService);
@@ -68,6 +70,9 @@ public abstract class ParallaxScene extends PxScene {
 
     @Override
     public void onTouchEvent(MotionEvent event) {
+        if (direction != Direction.TOUCH){
+            return;
+        }
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             startX = event.getX();
         } else if (event.getAction() == MotionEvent.ACTION_MOVE){
@@ -80,5 +85,33 @@ public abstract class ParallaxScene extends PxScene {
                 }
             }
         }
+    }
+
+    public void setDirection(Direction direction){
+        this.direction = direction;
+        if (direction != null){
+            switch (direction) {
+                case LEFT:
+                    updateHandler.goLeft();
+                    break;
+                case RIGHT:
+                    updateHandler.goRight();
+                    break;
+                case OFF:
+                    updateHandler.off();
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public float getHeight() {
+        float maxHeight = 0;
+        for (Sprite sprite : sprites) {
+            if (sprite.getHeight() > maxHeight){
+                maxHeight = sprite.getHeight();
+            }
+        }
+        return maxHeight;
     }
 }

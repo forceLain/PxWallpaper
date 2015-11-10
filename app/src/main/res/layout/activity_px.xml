@@ -118,6 +118,7 @@
                 android:text="@string/full_screen"/>
 
             <SeekBar
+                android:id="@+id/seek_bar_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"/>
