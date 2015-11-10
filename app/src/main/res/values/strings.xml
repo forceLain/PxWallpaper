@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">PxWallpaper</string>
     <string name="wallpaper_description">wallpaper_description</string>
+    <string name="set_preview">Set wallpaper / Preview</string>
+    <string name="title_scene">Scene</string>
+    <string name="scene_country">Country</string>
+    <string name="scene_forest">Forest</string>
+    <string name="scene_industrial">Industrial</string>
+    <string name="scene_mountain">Mountain</string>
+    <string name="scene_urban">Urban</string>
+    <string name="title_size">Size</string>
+    <string name="direction_left">Left</string>
+    <string name="direction_right">Right</string>
+    <string name="direction_touch">React to swipe</string>
+    <string name="direction_off">Off</string>
+    <string name="title_direction">Direction</string>
+    <string name="full_screen">Full screen</string>
 </resources>
