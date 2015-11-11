@@ -12,6 +12,21 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        release {
+            File signFile = rootProject.file('project.properties')
+            if (signFile.exists()) {
+                Properties p = new Properties()
+                p.load(new FileInputStream(signFile))
+                storeFile file(p.releaseStoreFile)
+                storePassword p.releaseStorePassword
+                keyAlias p.releaseKeyAlias
+                keyPassword p.releaseKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

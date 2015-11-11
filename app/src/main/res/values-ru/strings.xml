@@ -15,4 +15,6 @@
     <string name="title_direction">Направление</string>
     <string name="full_screen">Во весь экран</string>
     <string name="title_speed">Скорость</string>
+    <string name="app_name">PxWallpaper</string>
+    <string name="wallpaper_description">PxWallpaper</string>
 </resources>

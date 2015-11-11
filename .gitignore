@@ -36,3 +36,5 @@ proguard/
 *.iws
 .idea/
 .gradle/
+project.properties
+pxwallpaper.jks
