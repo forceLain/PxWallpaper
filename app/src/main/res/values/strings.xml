@@ -15,4 +15,5 @@
     <string name="direction_off">Off</string>
     <string name="title_direction">Direction</string>
     <string name="full_screen">Full screen</string>
+    <string name="title_speed">Speed</string>
 </resources>

@@ -14,4 +14,5 @@
     <string name="direction_off">Без движения</string>
     <string name="title_direction">Направление</string>
     <string name="full_screen">Во весь экран</string>
+    <string name="title_speed">Скорость</string>
 </resources>

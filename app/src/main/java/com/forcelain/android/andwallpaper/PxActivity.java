@@ -19,6 +19,7 @@ import butterknife.OnClick;
 public class PxActivity extends AppCompatActivity {
 
     public static final int SIZE_MAX = 5;
+    private static final int SPEED_MAX = 5;
     @Bind(R.id.radio_country) RadioButton countryRadioButton;
     @Bind(R.id.radio_forest) RadioButton forestRadioButton;
     @Bind(R.id.radio_industrial) RadioButton industrialRadioButton;
@@ -32,6 +33,7 @@ public class PxActivity extends AppCompatActivity {
 
     @Bind(R.id.checkbox_fullscreen) CheckBox fullScreenCheckBox;
     @Bind(R.id.seek_bar_size) SeekBar sizeSeekBar;
+    @Bind(R.id.seek_bar_speed) SeekBar speedSeekBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,28 @@ public class PxActivity extends AppCompatActivity {
 
             }
         });
+
+        speedSeekBar.setMax(SPEED_MAX);
+        speedSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                saveSpeed(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    private void saveSpeed(int speed) {
+        PrefUtils.setSpeed(this, speed);
     }
 
     @Override
@@ -116,6 +140,9 @@ public class PxActivity extends AppCompatActivity {
 
         int size = PrefUtils.getSize(this);
         sizeSeekBar.setProgress(size);
+
+        int speed = PrefUtils.getSpeed(this);
+        speedSeekBar.setProgress(speed);
 
         boolean fullScreen = PrefUtils.isFullScreen(this);
         fullScreenCheckBox.setChecked(fullScreen);

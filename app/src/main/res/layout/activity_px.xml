@@ -1,130 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp"
-                tools:context="com.forcelain.android.andwallpaper.PxActivity">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            tools:context="com.forcelain.android.andwallpaper.PxActivity">
 
-    <Button
-        android:id="@+id/button_set_wallpaper"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/set_preview"/>
+        android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/button_set_wallpaper">
-
-        <LinearLayout
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:padding="8dp"
+            android:text="@string/title_scene"/>
 
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Headline"
+        <RadioGroup
+            android:id="@+id/radio_group_scene"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radio_country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="@string/title_scene"/>
+                android:text="@string/scene_country"/>
 
-            <RadioGroup
-                android:id="@+id/radio_group_scene"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <RadioButton
-                    android:id="@+id/radio_country"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/scene_country"/>
-
-                <RadioButton
-                    android:id="@+id/radio_forest"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/scene_forest"/>
-
-                <RadioButton
-                    android:id="@+id/radio_industrial"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/scene_industrial"/>
-
-                <RadioButton
-                    android:id="@+id/radio_mountain"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/scene_mountain"/>
-
-                <RadioButton
-                    android:id="@+id/radio_urban"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/scene_urban"/>
-
-            </RadioGroup>
-
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Headline"
+            <RadioButton
+                android:id="@+id/radio_forest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="@string/title_direction"/>
+                android:text="@string/scene_forest"/>
 
-            <RadioGroup
-                android:id="@+id/radio_group_direction"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <RadioButton
-                    android:id="@+id/radio_direction_left"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/direction_left"/>
-
-                <RadioButton
-                    android:id="@+id/radio_direction_right"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/direction_right"/>
-
-                <RadioButton
-                    android:id="@+id/radio_direction_touch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/direction_touch"/>
-
-                <RadioButton
-                    android:id="@+id/radio_direction_off"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/direction_off"/>
-            </RadioGroup>
-
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Headline"
+            <RadioButton
+                android:id="@+id/radio_industrial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="@string/title_size"/>
+                android:text="@string/scene_industrial"/>
 
-            <CheckBox
-                android:id="@+id/checkbox_fullscreen"
+            <RadioButton
+                android:id="@+id/radio_mountain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/full_screen"/>
+                android:text="@string/scene_mountain"/>
 
-            <SeekBar
-                android:id="@+id/seek_bar_size"
+            <RadioButton
+                android:id="@+id/radio_urban"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"/>
+                android:text="@string/scene_urban"/>
 
-        </LinearLayout>
-    </ScrollView>
+        </RadioGroup>
+
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/title_direction"/>
+
+        <RadioGroup
+            android:id="@+id/radio_group_direction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radio_direction_left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/direction_left"/>
+
+            <RadioButton
+                android:id="@+id/radio_direction_right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/direction_right"/>
+
+            <RadioButton
+                android:id="@+id/radio_direction_touch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/direction_touch"/>
+
+            <RadioButton
+                android:id="@+id/radio_direction_off"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/direction_off"/>
+        </RadioGroup>
+
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/title_size"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_fullscreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/full_screen"/>
+
+        <SeekBar
+            android:id="@+id/seek_bar_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"/>
+
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/title_speed"/>
+
+        <SeekBar
+            android:id="@+id/seek_bar_speed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"/>
+
+        <Button
+            android:id="@+id/button_set_wallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/set_preview"/>
+
+    </LinearLayout>
 
 
-</RelativeLayout>
+</ScrollView>

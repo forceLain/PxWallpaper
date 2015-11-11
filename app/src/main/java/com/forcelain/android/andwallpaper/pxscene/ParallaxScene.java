@@ -104,6 +104,10 @@ public abstract class ParallaxScene extends PxScene {
         }
     }
 
+    public void setSpeed(int speed){
+        updateHandler.setSpeed(speed);
+    }
+
     @Override
     public float getHeight() {
         float maxHeight = 0;

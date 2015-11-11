@@ -1,6 +1,9 @@
 package com.forcelain.android.andwallpaper;
 
+import android.graphics.Point;
+import android.os.Build;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
@@ -25,7 +28,7 @@ import org.andengine.opengl.util.GLState;
 public class LiveWallpaperService extends BaseLiveWallpaperService {
 
     private Camera camera;
-    private int factor = 5;
+    private float factor = 5;
     private PxScene currentScene;
     private Scene scene;
     private CountryScene countryScene;
@@ -117,18 +120,17 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
         currentSceneEnum = newScene;
 
         Direction direction = PrefUtils.getDirection(this);
+        int speed = PrefUtils.getSpeed(this);
         if (currentScene instanceof ParallaxScene){
             ((ParallaxScene) currentScene).setDirection(direction);
+            ((ParallaxScene) currentScene).setSpeed(speed);
         }
 
         boolean fullScreen = PrefUtils.isFullScreen(this);
         if (fullScreen || currentSceneEnum == com.forcelain.android.andwallpaper.Scene.FOREST){
-            WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            wm.getDefaultDisplay().getMetrics(displayMetrics);
-            int screenHeight = displayMetrics.heightPixels;
+            int screenHeight = getScreenHeight();
             float sceneHeight = currentScene.getHeight();
-            factor = (int) Math.ceil(screenHeight / sceneHeight) + 1;
+            factor = screenHeight / sceneHeight;
         } else {
             factor = PrefUtils.getSize(this) + 1;
         }
@@ -136,6 +138,19 @@ public class LiveWallpaperService extends BaseLiveWallpaperService {
         if (currentScene != null) {
             currentScene.onResumeGame();
         }
+    }
+
+    private int getScreenHeight() {
+        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+            Point point = new Point();
+            display.getRealSize(point);
+            return point.y;
+        }
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        display.getMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
     }
 
     @Override

@@ -10,6 +10,7 @@ public class DefaultParallaxHandler implements IUpdateHandler {
     private final ParallaxBackground background;
     private float value;
     private int state;
+    private int speed;
 
     public DefaultParallaxHandler(ParallaxBackground background) {
         this.background = background;
@@ -19,10 +20,10 @@ public class DefaultParallaxHandler implements IUpdateHandler {
     public void onUpdate(float pSecondsElapsed) {
         switch (state){
             case STATE_GO_LEFT:
-                value += pSecondsElapsed;
+                value += pSecondsElapsed * (speed + 1);
                 break;
             case STATE_GO_RIGHT:
-                value -= pSecondsElapsed;
+                value -= pSecondsElapsed * (speed + 1);
                 break;
         }
         background.setParallaxValue(value);
@@ -43,5 +44,9 @@ public class DefaultParallaxHandler implements IUpdateHandler {
 
     public void off() {
         state = STATE_OFF;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }

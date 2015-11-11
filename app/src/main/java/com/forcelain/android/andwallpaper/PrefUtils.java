@@ -11,6 +11,7 @@ public class PrefUtils {
     private static final String PREF_DIRECTION = "PREF_DIRECTION";
     private static final String PREF_SIZE = "PREF_SIZE";
     private static final String PREF_FULL_SCREEN = "PREF_FULL_SCREEN";
+    private static final String PREF_SPEED = "PREF_SPEED";
 
     public static void setScene(Context context, Scene scene) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -71,5 +72,16 @@ public class PrefUtils {
 
     public static boolean isFullScreen(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PREF_FULL_SCREEN, true);
+    }
+
+    public static void setSpeed(Context context, int speed) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putInt(PREF_SPEED, speed)
+                .apply();
+    }
+
+    public static int getSpeed(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context).getInt(PREF_SPEED, 0);
     }
 }
