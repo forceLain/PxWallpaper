@@ -12,6 +12,9 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -94,6 +97,16 @@ public class PxActivity extends AppCompatActivity {
 
             }
         });
+
+        AdView mAdView = (AdView) findViewById(R.id.ad_view);
+        if (BuildConfig.SHOW_AD){
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        } else {
+            mAdView.getLayoutParams().height = 0;
+            mAdView.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     private void saveSpeed(int speed) {

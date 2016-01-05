@@ -11,6 +11,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        buildConfigField "boolean", "SHOW_AD", "true"
     }
 
     signingConfigs {
@@ -32,13 +33,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        pro {
+            applicationId = "com.forcelain.android.pxwallpaper"
+            buildConfigField "boolean", "SHOW_AD", "false"
+        }
+        free {
+            applicationId = "com.forcelain.android.pxwallpaper.free"
+        }
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile project(':andengine-wallpaper-extention')
     compile project(':andengine')
+    compile 'com.google.android.gms:play-services-ads:8.4.0'
 
 }
